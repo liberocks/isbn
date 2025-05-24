@@ -256,41 +256,41 @@ sequenceDiagram
     Handler-->>Service: Start analytics
     Service-->>Repository: Count all books
     Repository-->>Database: Count all records
-    Database-->>Repository:
+    Database-->>Repository: 
     Repository-->>Service: Count all books result
     Service-->>Repository: Count all author
     Repository-->>Database: Count all authors
-    Database-->>Repository:
+    Database-->>Repository: 
     Repository-->>Service: Count all authors result
     Service-->>Repository: Find oldest release date
     Repository-->>Database: Find oldest release date
-    Database-->>Repository:
+    Database-->>Repository: 
     Repository-->>Service: Find oldest release date result
     Service-->>Repository: Find newest release date
     Repository-->>Database: Find newest release date
-    Database-->>Repository:
+    Database-->>Repository:  
     Repository-->>Service: Find newest release date result
     Service-->>Repository: Find most productive author
     Repository-->>Database: Find most productive author
-    Database-->>Repository:
+    Database-->>Repository:  
     Repository-->>Service: Find most productive author result
     Service-->>Repository: Find longest book title
     Repository-->>Database: Find longest book title
-    Database-->>Repository:
+    Database-->>Repository: 
     Repository-->>Service: Find longest book title result
     Service-->>Repository: Find shortest book title
     Repository-->>Database: Find shortest book title
-    Database-->>Repository:
+    Database-->>Repository: 
     Repository-->>Service: Find shortest book title result
     Service-->>Repository: Update analytics
     Repository-->>Database: Update analytics
-    Database-->>Repository:
+    Database-->>Repository: 
     Repository-->>Service: Update analytics result
     User-->>Handler: Get analytics
     Handler-->>Service: Get analytics
     Service-->>Repository: Get analytics
     Repository-->>Database: Get analytics
-    Database-->>Repository:
+    Database-->>Repository: 
     Repository-->>Service: Return analytics result
     Service-->>Handler: Return analytics result
     Handler-->>User: Return analytics result
