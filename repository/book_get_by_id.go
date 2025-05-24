@@ -7,13 +7,11 @@ import (
 	"isbn/model"
 )
 
-func (r *Repository) BookGetByID(ctx context.Context, id string) (*model.Book, error) {
-	// Check if the book exists
-	book, exists := bookStore[id]
+func (r *Repository) BookGetByID(ctx context.Context, isbn string) (*model.Book, error) {
+	book, exists := bookStore[isbn]
 	if !exists {
-		return nil, fmt.Errorf("book with ISBN %s does not exist", id)
+		return nil, fmt.Errorf("book with ISBN %s not found", isbn)
 	}
 
-	// Return the book details
 	return &book, nil
 }

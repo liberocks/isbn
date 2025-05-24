@@ -8,19 +8,18 @@ import (
 	"isbn/model"
 )
 
-func (r *Repository) BookUpdateByID(ctx context.Context, id string, book dto.BookUpdateByIDRequest) (*model.Book, error) {
-	// Check if the book exists
-	existingBook, exists := bookStore[id]
+func (r *Repository) BookUpdateByID(ctx context.Context, isbn string, book dto.BookUpdateByIDRequest) (*model.Book, error) {
+	existingBook, exists := bookStore[isbn]
 	if !exists {
-		return nil, fmt.Errorf("book with ISBN %s does not exist", id)
+		return nil, fmt.Errorf("book with ISBN %s not found", isbn)
 	}
 
-	// Update the book details
+	// Update the book fields
 	existingBook.Title = book.Title
 	existingBook.Author = book.Author
 	existingBook.ReleaseDate = book.ReleaseDate
 
-	bookStore[id] = existingBook
+	bookStore[isbn] = existingBook
 
 	return &existingBook, nil
 }

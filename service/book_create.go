@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"log/slog"
 
 	"isbn/dto"
 )
@@ -12,6 +13,8 @@ func (s *Service) BookCreate(ctx context.Context, book dto.BookCreateRequest) (d
 	if err != nil {
 		return dto.BookCreateResponse{}, err
 	}
+
+	slog.Info("Book created successfully", "ISBN", newBook.ISBN, "Title", newBook.Title)
 
 	// Map the new book to the response DTO
 	response := dto.BookCreateResponse{

@@ -20,7 +20,7 @@ func main() {
 	// Initialization
 	repo := repository.NewRepository()
 	service := service.NewService(repo)
-	handler := handler.NewBookHandler(service)
+	handler := handler.NewHandler(service)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode("Welcome to the ISBN API")

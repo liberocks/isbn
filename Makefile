@@ -23,6 +23,10 @@ all: format test coverage build
 test:
 	@echo "Running tests..."
 	$(GOTEST) -v ./...
+	@if [ -f ./test.sh ]; then \
+		echo "Running test script..."; \
+		./test.sh; \
+	fi
 
 # Run tests with coverage
 coverage:
