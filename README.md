@@ -1,6 +1,18 @@
 # ISBN Book API
 
-This is a simple API to manage books using their ISBN numbers. It allows you to add, retrieve, and delete books from a collection.
+This is a simple API to manage books using their ISBN numbers. It allows you to add, retrieve, and delete books from a collection. It will log all requests and responses to a file (app.log) and stdout.
+
+## Table of Contents
+- [How to run locally](#how-to-run-locally)
+- [How to run with Docker](#how-to-run-with-docker)
+- [How to test](#how-to-test)
+- [API Endpoints](#api-endpoints)
+  - [Create a book](#create-a-book)
+  - [Get book by ISBN](#get-book-by-isbn)
+  - [Get list of books](#get-list-of-books)
+  - [Update a book by ISBN](#update-a-book-by-isbn)
+  - [Delete a book by ISBN](#delete-a-book-by-isbn)
+  - [Analytics Endpoints](#analytics-endpoints)
 
 ## How to run locally
 Run the following command to start the API locally:
