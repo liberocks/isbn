@@ -156,8 +156,15 @@ sequenceDiagram
 
     User->>Handler: Send payload with ISBN
     Handler->>Service: Validate payload
+    Service-->>Handler: If not valid, return error
+    Handler-->>User: If not valid, return error
     Service->>Repository: Update book by ISBN
     Repository->>Database: Check if ISBN existed
+    Database-->>Repository: If not existed, return error
+    Repository-->>Service: If not existed, return error
+    Service-->>Handler: If not existed, return error
+    Handler-->>User: If not existed, return error
+    Repository->>Database: If existed, update record in the DB
     Database->>Repository: 
     Repository->>Database: Update record in the DB
     Database->>Repository: 
