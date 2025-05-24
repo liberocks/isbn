@@ -16,6 +16,7 @@ This is a simple API to manage books using their ISBN numbers. It allows you to 
   - [Analytics Endpoints](#analytics-endpoints)
 
 ## Assumptions
+- No external dependencies are used in this API as the task specification requires a simple implementation with only `net/http` library.
 - The API is designed to handle books with unique ISBN numbers (the name is interchangeable with ID in the code).
 - The API will log all requests and responses to a file (app.log) and stdout.
 - The API will use a simple in-memory database for storing book records. In the real production environment, we should use a persistent database like PostgreSQL.
