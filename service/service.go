@@ -4,10 +4,14 @@ import (
 	"isbn/repository"
 )
 
-type BookService struct {
+type ServiceInterface interface {
+	BookServiceInterface
+}
+
+type Service struct {
 	repo *repository.Repository
 }
 
-func NewBookService(repo *repository.Repository) *BookService {
-	return &BookService{repo: repo}
+func NewService(repo *repository.Repository) *Service {
+	return &Service{repo: repo}
 }

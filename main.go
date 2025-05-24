@@ -19,7 +19,7 @@ func main() {
 
 	// Initialization
 	repo := repository.NewRepository()
-	service := service.NewBookService(repo)
+	service := service.NewService(repo)
 	handler := handler.NewBookHandler(service)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

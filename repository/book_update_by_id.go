@@ -8,11 +8,11 @@ import (
 	"isbn/model"
 )
 
-func (r *Repository) BookUpdateByID(ctx context.Context, isbn string, book dto.BookUpdateByIDRequest) (*model.Book, error) {
+func (r *Repository) BookUpdateByID(ctx context.Context, id string, book dto.BookUpdateByIDRequest) (*model.Book, error) {
 	// Check if the book exists
-	existingBook, exists := bookStore[isbn]
+	existingBook, exists := bookStore[id]
 	if !exists {
-		return nil, fmt.Errorf("book with ISBN %s does not exist", isbn)
+		return nil, fmt.Errorf("book with ISBN %s does not exist", id)
 	}
 
 	// Update the book details
@@ -20,7 +20,7 @@ func (r *Repository) BookUpdateByID(ctx context.Context, isbn string, book dto.B
 	existingBook.Author = book.Author
 	existingBook.ReleaseDate = book.ReleaseDate
 
-	bookStore[isbn] = existingBook
+	bookStore[id] = existingBook
 
 	return &existingBook, nil
 }

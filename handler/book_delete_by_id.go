@@ -2,6 +2,6 @@ package handler
 
 import "net/http"
 
-func (h *BookHandler) BookDeleteByID(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) BookDeleteByID(w http.ResponseWriter, r *http.Request) {
 
 }

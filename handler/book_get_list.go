@@ -2,6 +2,6 @@ package handler
 
 import "net/http"
 
-func (h *BookHandler) BookGetList(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) BookGetList(w http.ResponseWriter, r *http.Request) {
 
 }

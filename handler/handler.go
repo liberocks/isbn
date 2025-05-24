@@ -4,10 +4,14 @@ import (
 	"isbn/service"
 )
 
-type BookHandler struct {
-	service *service.BookService
+type HandlerInterface interface {
+	BookHandlerInterface
 }
 
-func NewBookHandler(service *service.BookService) *BookHandler {
-	return &BookHandler{service: service}
+type Handler struct {
+	service *service.Service
+}
+
+func NewBookHandler(service *service.Service) *Handler {
+	return &Handler{service: service}
 }
