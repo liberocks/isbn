@@ -8,8 +8,8 @@ import (
 	"isbn/model"
 )
 
-func CreateBook(ctx context.Context, book dto.CreateBookRequest) (*model.Book, error) {
-	if _, exists := inMemoryDB[book.ISBN]; exists {
+func (r *Repository) BookCreate(ctx context.Context, book dto.BookCreateRequest) (*model.Book, error) {
+	if _, exists := bookStore[book.ISBN]; exists {
 		return nil, fmt.Errorf("book with ISBN %s already exists", book.ISBN)
 	}
 
@@ -20,7 +20,7 @@ func CreateBook(ctx context.Context, book dto.CreateBookRequest) (*model.Book, e
 		ReleaseDate: book.ReleaseDate,
 	}
 
-	inMemoryDB[book.ISBN] = newBook
+	bookStore[book.ISBN] = newBook
 
 	return &newBook, nil
 }

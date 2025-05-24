@@ -8,9 +8,12 @@ import (
 	"isbn/repository"
 )
 
-func TestCreateBook(t *testing.T) {
+func TestBookCreate(t *testing.T) {
+	// Initialize the repository
+	repo := repository.NewRepository()
+
 	// Create a new book
-	book := dto.CreateBookRequest{
+	book := dto.BookCreateRequest{
 		ISBN:        "978-3-16-148410-0",
 		Title:       "Test Book",
 		Author:      "John Doe",
@@ -18,7 +21,7 @@ func TestCreateBook(t *testing.T) {
 	}
 
 	// Call the CreateBook function
-	createdBook, err := repository.CreateBook(context.Background(), book)
+	createdBook, err := repo.BookCreate(context.Background(), book)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -38,5 +41,5 @@ func TestCreateBook(t *testing.T) {
 	}
 
 	// Clean up
-	repository.DeleteBookByID(context.Background(), createdBook.ISBN)
+	repo.BookDeleteByID(context.Background(), createdBook.ISBN)
 }

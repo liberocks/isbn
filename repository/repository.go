@@ -1,12 +1,11 @@
 package repository
 
-import "isbn/model"
-
-var inMemoryDB = make(map[string]model.Book)
-
-type BookRepository struct {
+type RepositoryInterface interface {
+	BookRepositoryInterface
 }
 
-func NewBookRepository() *BookRepository {
-	return &BookRepository{}
+type Repository struct{}
+
+func NewRepository() *Repository {
+	return &Repository{}
 }

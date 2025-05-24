@@ -7,16 +7,16 @@ import (
 	"isbn/dto"
 )
 
-func TestCreateBookRequest_Validate(t *testing.T) {
+func TestBookCreateRequest(t *testing.T) {
 	tests := []struct {
 		name    string
-		request dto.CreateBookRequest
+		request dto.BookCreateRequest
 		wantErr bool
 		errMsg  string
 	}{
 		{
 			name: "valid request",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "1234567890123",
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
@@ -26,7 +26,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "empty ISBN",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "",
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
@@ -37,7 +37,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "ISBN too short",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "123456789012",
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
@@ -48,7 +48,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "ISBN too long",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "12345678901234",
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
@@ -59,7 +59,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "empty title",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "1234567890123",
 				Title:       "",
 				Author:      "Valid Author",
@@ -70,7 +70,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "title too short",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "1234567890123",
 				Title:       "AB",
 				Author:      "Valid Author",
@@ -81,7 +81,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "title too long",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "1234567890123",
 				Title:       strings.Repeat("A", 101),
 				Author:      "Valid Author",
@@ -92,7 +92,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "empty author",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "1234567890123",
 				Title:       "Valid Book Title",
 				Author:      "",
@@ -103,7 +103,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "author too short",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "1234567890123",
 				Title:       "Valid Book Title",
 				Author:      "AB",
@@ -114,7 +114,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "author too long",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "1234567890123",
 				Title:       "Valid Book Title",
 				Author:      strings.Repeat("A", 101),
@@ -125,7 +125,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "empty release date",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "1234567890123",
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
@@ -136,7 +136,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "release date wrong length",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "1234567890123",
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
@@ -147,7 +147,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "release date wrong format - missing first dash",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "1234567890123",
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
@@ -158,7 +158,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "release date wrong format - missing second dash",
-			request: dto.CreateBookRequest{
+			request: dto.BookCreateRequest{
 				ISBN:        "1234567890123",
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",

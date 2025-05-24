@@ -6,16 +6,16 @@ import (
 	"isbn/dto"
 )
 
-func TestGetBooksQuery_Validate(t *testing.T) {
+func TestBookGetListQuery(t *testing.T) {
 	tests := []struct {
 		name    string
-		query   dto.GetBooksQuery
+		query   dto.BookGetListQuery
 		wantErr bool
 		errMsg  string
 	}{
 		{
 			name: "valid query",
-			query: dto.GetBooksQuery{
+			query: dto.BookGetListQuery{
 				Page:  1,
 				Limit: 10,
 			},
@@ -23,7 +23,7 @@ func TestGetBooksQuery_Validate(t *testing.T) {
 		},
 		{
 			name: "valid query with max limit",
-			query: dto.GetBooksQuery{
+			query: dto.BookGetListQuery{
 				Page:  5,
 				Limit: 100,
 			},
@@ -31,7 +31,7 @@ func TestGetBooksQuery_Validate(t *testing.T) {
 		},
 		{
 			name: "valid query with min limit",
-			query: dto.GetBooksQuery{
+			query: dto.BookGetListQuery{
 				Page:  1,
 				Limit: 1,
 			},
@@ -39,7 +39,7 @@ func TestGetBooksQuery_Validate(t *testing.T) {
 		},
 		{
 			name: "page is zero",
-			query: dto.GetBooksQuery{
+			query: dto.BookGetListQuery{
 				Page:  0,
 				Limit: 10,
 			},
@@ -48,7 +48,7 @@ func TestGetBooksQuery_Validate(t *testing.T) {
 		},
 		{
 			name: "page is negative",
-			query: dto.GetBooksQuery{
+			query: dto.BookGetListQuery{
 				Page:  -1,
 				Limit: 10,
 			},
@@ -57,7 +57,7 @@ func TestGetBooksQuery_Validate(t *testing.T) {
 		},
 		{
 			name: "limit is zero",
-			query: dto.GetBooksQuery{
+			query: dto.BookGetListQuery{
 				Page:  1,
 				Limit: 0,
 			},
@@ -66,7 +66,7 @@ func TestGetBooksQuery_Validate(t *testing.T) {
 		},
 		{
 			name: "limit is negative",
-			query: dto.GetBooksQuery{
+			query: dto.BookGetListQuery{
 				Page:  1,
 				Limit: -1,
 			},
@@ -75,7 +75,7 @@ func TestGetBooksQuery_Validate(t *testing.T) {
 		},
 		{
 			name: "limit too high",
-			query: dto.GetBooksQuery{
+			query: dto.BookGetListQuery{
 				Page:  1,
 				Limit: 101,
 			},
@@ -84,7 +84,7 @@ func TestGetBooksQuery_Validate(t *testing.T) {
 		},
 		{
 			name: "both page and limit invalid",
-			query: dto.GetBooksQuery{
+			query: dto.BookGetListQuery{
 				Page:  0,
 				Limit: 101,
 			},

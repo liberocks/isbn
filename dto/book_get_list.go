@@ -3,28 +3,28 @@ package dto
 import "fmt"
 
 // DTO
-type GetBooksQuery struct {
+type BookGetListQuery struct {
 	Page  int `json:"page"`
 	Limit int `json:"limit"`
 }
 
-type GetBooksBaseResponse struct {
+type BookGetListItemResponse struct {
 	ISBN        string `json:"isbn"`
 	Title       string `json:"title"`
 	Author      string `json:"author"`
 	ReleaseDate string `json:"release_date"`
 }
 
-type GetBooksResponse struct {
-	Data       []GetBooksBaseResponse `json:"data"`
-	Total      int                    `json:"total"`
-	TotalPages int                    `json:"total_pages"`
-	Page       int                    `json:"page"`
-	Limit      int                    `json:"limit"`
+type BookGetListResponse struct {
+	Data       []BookGetListItemResponse `json:"data"`
+	Total      int                       `json:"total"`
+	TotalPages int                       `json:"total_pages"`
+	Page       int                       `json:"page"`
+	Limit      int                       `json:"limit"`
 }
 
 // Validator
-func (c *GetBooksQuery) Validate() error {
+func (c *BookGetListQuery) Validate() error {
 	if c.Page < 1 {
 		return fmt.Errorf("page must be greater than 0")
 	}

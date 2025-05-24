@@ -5,14 +5,14 @@ import (
 	"fmt"
 )
 
-func DeleteBookByID(ctx context.Context, isbn string) error {
+func (r *Repository) BookDeleteByID(ctx context.Context, isbn string) error {
 	// Check if the book exists
-	if _, exists := inMemoryDB[isbn]; !exists {
+	if _, exists := bookStore[isbn]; !exists {
 		return fmt.Errorf("book with ISBN %s does not exist", isbn)
 	}
 
 	// Delete the book from the in-memory database
-	delete(inMemoryDB, isbn)
+	delete(bookStore, isbn)
 
 	return nil
 }

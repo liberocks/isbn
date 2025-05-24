@@ -3,20 +3,20 @@ package dto
 import "fmt"
 
 // DTO
-type UpdateBookByIDRequest struct {
+type BookUpdateByIDRequest struct {
 	Title       string `json:"title"`
 	Author      string `json:"author"`
 	ReleaseDate string `json:"release_date"`
 }
 
-type UpdateBookByIDResponse struct {
+type BookUpdateByIDResponse struct {
 	Title       string `json:"title"`
 	Author      string `json:"author"`
 	ReleaseDate string `json:"release_date"`
 }
 
 // Validator
-func (c *UpdateBookByIDRequest) Validate() error {
+func (c *BookUpdateByIDRequest) Validate() error {
 	// Validating the title
 	if c.Title == "" {
 		return fmt.Errorf("title is required")

@@ -3,14 +3,14 @@ package dto
 import "fmt"
 
 // DTO
-type CreateBookRequest struct {
+type BookCreateRequest struct {
 	ISBN        string `json:"isbn"`
 	Title       string `json:"title"`
 	Author      string `json:"author"`
 	ReleaseDate string `json:"release_date"`
 }
 
-type CreateBookResponse struct {
+type BookCreateResponse struct {
 	ISBN        string `json:"isbn"`
 	Title       string `json:"title"`
 	Author      string `json:"author"`
@@ -18,7 +18,7 @@ type CreateBookResponse struct {
 }
 
 // Validator
-func (c *CreateBookRequest) Validate() error {
+func (c *BookCreateRequest) Validate() error {
 	// Validating the ISBN
 	if c.ISBN == "" {
 		return fmt.Errorf("ISBN is required")

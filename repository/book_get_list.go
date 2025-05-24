@@ -2,11 +2,12 @@ package repository
 
 import (
 	"context"
+
 	"isbn/dto"
 	"isbn/model"
 )
 
-func GetBooks(ctx context.Context, query dto.GetBooksQuery) ([]model.Book, int, error) {
+func (r *Repository) BookGetList(ctx context.Context, query dto.BookGetListQuery) ([]model.Book, int, error) {
 	// Initialize a slice to hold the filtered books
 	var filteredBooks []model.Book
 
@@ -16,7 +17,7 @@ func GetBooks(ctx context.Context, query dto.GetBooksQuery) ([]model.Book, int, 
 
 	// Iterate over the in-memory database and filter books based on the query
 	index := 0
-	for _, book := range inMemoryDB {
+	for _, book := range bookStore {
 		if index < offset {
 			index++
 			continue
@@ -31,5 +32,5 @@ func GetBooks(ctx context.Context, query dto.GetBooksQuery) ([]model.Book, int, 
 	}
 
 	// Return the filtered books and the total count
-	return filteredBooks, len(inMemoryDB), nil
+	return filteredBooks, len(bookStore), nil
 }

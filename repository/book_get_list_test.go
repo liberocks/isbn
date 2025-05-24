@@ -8,9 +8,12 @@ import (
 	"isbn/repository"
 )
 
-func TestGetBooksID(t *testing.T) {
+func TestBookGetList(t *testing.T) {
+	// Initialize the repository
+	repo := repository.NewRepository()
+
 	// Create multiple books
-	books := []dto.CreateBookRequest{
+	books := []dto.BookCreateRequest{
 		{
 			ISBN:        "978-3-16-148410-0",
 			Title:       "Test Book 1",
@@ -33,18 +36,18 @@ func TestGetBooksID(t *testing.T) {
 
 	for _, book := range books {
 		// Call the CreateBook function
-		_, err := repository.CreateBook(context.Background(), book)
+		_, err := repo.BookCreate(context.Background(), book)
 		if err != nil {
 			t.Fatalf("expected no error, got %v", err)
 		}
 	}
 
 	// Retrieve all books with page 2 limit 2
-	query := dto.GetBooksQuery{
+	query := dto.BookGetListQuery{
 		Page:  2,
 		Limit: 2,
 	}
-	retreivedBooks, total, err := repository.GetBooks(context.Background(), query)
+	retreivedBooks, total, err := repo.BookGetList(context.Background(), query)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -59,6 +62,6 @@ func TestGetBooksID(t *testing.T) {
 
 	// Clean up
 	for _, book := range books {
-		repository.DeleteBookByID(context.Background(), book.ISBN)
+		repo.BookDeleteByID(context.Background(), book.ISBN)
 	}
 }

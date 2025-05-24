@@ -1,7 +1,7 @@
 package dto
 
 // DTO
-type GetBookByIDResponse struct {
+type BookGetByIDResponse struct {
 	ISBN        string `json:"isbn"`
 	Title       string `json:"title"`
 	Author      string `json:"author"`

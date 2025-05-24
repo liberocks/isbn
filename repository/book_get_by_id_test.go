@@ -8,8 +8,12 @@ import (
 	"isbn/repository"
 )
 
-func TestGetBookByID(t *testing.T) { // Create a new book
-	book := dto.CreateBookRequest{
+func TestBookGetByID(t *testing.T) {
+	// Initialize the repository
+	repo := repository.NewRepository()
+
+	// Create a new book
+	book := dto.BookCreateRequest{
 		ISBN:        "978-3-16-148410-0",
 		Title:       "Test Book",
 		Author:      "John Doe",
@@ -17,13 +21,13 @@ func TestGetBookByID(t *testing.T) { // Create a new book
 	}
 
 	// Call the CreateBook function
-	_, err := repository.CreateBook(context.Background(), book)
+	_, err := repo.BookCreate(context.Background(), book)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
 
 	// Check if the book is stored in the in-memory database
-	retreivedBook, err := repository.GetBookByID(context.Background(), book.ISBN)
+	retreivedBook, err := repo.BookGetByID(context.Background(), book.ISBN)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
@@ -42,5 +46,5 @@ func TestGetBookByID(t *testing.T) { // Create a new book
 	}
 
 	// Clean up
-	repository.DeleteBookByID(context.Background(), book.ISBN)
+	repo.BookDeleteByID(context.Background(), book.ISBN)
 }

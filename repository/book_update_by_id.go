@@ -3,13 +3,14 @@ package repository
 import (
 	"context"
 	"fmt"
+
 	"isbn/dto"
 	"isbn/model"
 )
 
-func UpdateBookByID(ctx context.Context, isbn string, book dto.UpdateBookByIDRequest) (*model.Book, error) {
+func (r *Repository) BookUpdateByID(ctx context.Context, isbn string, book dto.BookUpdateByIDRequest) (*model.Book, error) {
 	// Check if the book exists
-	existingBook, exists := inMemoryDB[isbn]
+	existingBook, exists := bookStore[isbn]
 	if !exists {
 		return nil, fmt.Errorf("book with ISBN %s does not exist", isbn)
 	}
@@ -19,7 +20,7 @@ func UpdateBookByID(ctx context.Context, isbn string, book dto.UpdateBookByIDReq
 	existingBook.Author = book.Author
 	existingBook.ReleaseDate = book.ReleaseDate
 
-	inMemoryDB[isbn] = existingBook
+	bookStore[isbn] = existingBook
 
 	return &existingBook, nil
 }

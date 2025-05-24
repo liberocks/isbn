@@ -18,7 +18,7 @@ func main() {
 	slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, nil)))
 
 	// Initialization
-	repo := repository.NewBookRepository()
+	repo := repository.NewRepository()
 	service := service.NewBookService(repo)
 	handler := handler.NewBookHandler(service)
 
@@ -28,10 +28,10 @@ func main() {
 
 	http.HandleFunc("/books", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
-			handler.GetBooks(w, r)
+			handler.BookGetList(w, r)
 			return
 		} else if r.Method == http.MethodPost {
-			handler.CreateBook(w, r)
+			handler.BookCreate(w, r)
 			return
 		}
 
@@ -40,13 +40,13 @@ func main() {
 
 	http.HandleFunc("/books/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
-			handler.GetBookByID(w, r)
+			handler.BookGetByID(w, r)
 			return
 		} else if r.Method == http.MethodPut {
-			handler.UpdateBookByID(w, r)
+			handler.BookUpdateByID(w, r)
 			return
 		} else if r.Method == http.MethodDelete {
-			handler.DeleteBookByID(w, r)
+			handler.BookDeleteByID(w, r)
 			return
 		}
 
