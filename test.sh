@@ -282,22 +282,12 @@ else
 fi
 echo
 
-# Test 14: Get analytics data
-echo -e "${YELLOW}Test 14: Get analytics data${NC}"
-RESPONSE=$(curl -s -w "%{http_code}" -X GET "$BASE_URL/analytics")
-HTTP_CODE="${RESPONSE: -3}"
-BODY="${RESPONSE%???}"
-echo "Response: $BODY"
-echo "HTTP Code: $HTTP_CODE"
-if [ "$HTTP_CODE" -eq 200 ]; then
-    print_result 0 "Analytics data retrieved successfully"
-else
-    print_result 1 "Failed to retrieve analytics data"
-fi
-echo
+# Add delay to allow analytics processing
+echo "Waiting for analytics processing..."
+sleep 2
 
-# Test 15: Verify analytics reflect current book count
-echo -e "${YELLOW}Test 15: Verify analytics reflect current book count${NC}"
+# Test 14: Verify analytics reflect current book count
+echo -e "${YELLOW}Test 14: Verify analytics reflect current book count${NC}"
 # Trigger analytics again to ensure it's up to date
 curl -s -X POST "$BASE_URL/analytics" > /dev/null
 RESPONSE=$(curl -s -w "%{http_code}" -X GET "$BASE_URL/analytics")

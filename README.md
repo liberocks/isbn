@@ -24,6 +24,12 @@ To run the tests, use the following command:
 make test
 ```
 
+You can also run the tests with actual API calls using the command below. But make sure to have the API running locally or in Docker.
+
+```bash
+make test_curl
+```
+
 ## API Endpoints
 ### Create a book
 
@@ -60,7 +66,7 @@ POST `/books`
   "release_date": "2023-10-01"
 }
 ```
-### Response
+#### Response
 ```json
 {
     "isbn": "1234567890123",
@@ -95,7 +101,7 @@ This endpoint allows you to retrieve a book's details using its ISBN. If the boo
 
 GET `/books/{isbn}`
 
-### Response
+#### Response
 ```json
 {
     "isbn": "1234567890123",
@@ -123,7 +129,7 @@ This endpoint allows you to retrieve a list of all books in the collection. The 
 
 GET `/books?page={page}&limit={limit}`
 
-### Response
+#### Response
 ```json
 {
     "data": [
@@ -182,7 +188,7 @@ PUT `/books/{isbn}`
   "release_date": "2023-11-01"
 }
 ```
-### Response
+#### Response
 ```json
 {
     "isbn": "1234567890123",
@@ -217,9 +223,63 @@ This endpoint allows you to delete a book from the collection using its ISBN. If
 
 DELETE `/books/{isbn}`
 
-### Response
+#### Response
 ```json
 {
     "message": "Book deleted successfully"
 }
+```
+
+### Analytics Endpoints
+To simulate the usage of goroutines, I added two endpoints to trigger the analytics process. These endpoints will run in the background and will not block the main thread. The analytics handler will trigger the analytics service, which will perform the analytics tasks concurrently using goroutines. Inside this service, multiple goroutines will be used to perform different analytics tasks, such as counting books, finding the oldest and newest release dates, and identifying the most productive author. The results of these tasks will be collected and stored in the database. After the analytics process is complete, the user can retrieve the analytics results using get analytics endpoint.
+
+
+
+```mermaid
+sequenceDiagram
+    accTitle: Analytics pipeline
+
+    User->>Handler: Trigger analytics
+    Handler->>User: Analytics pipeline started
+    Handler-->>Service: Start analytics
+    Service-->>Repository: Count all books
+    Repository-->>Database: Count all records
+    Database-->>Repository:
+    Repository-->>Service: Count all books result
+    Service-->>Repository: Count all author
+    Repository-->>Database: Count all authors
+    Database-->>Repository:
+    Repository-->>Service: Count all authors result
+    Service-->>Repository: Find oldest release date
+    Repository-->>Database: Find oldest release date
+    Database-->>Repository:
+    Repository-->>Service: Find oldest release date result
+    Service-->>Repository: Find newest release date
+    Repository-->>Database: Find newest release date
+    Database-->>Repository:
+    Repository-->>Service: Find newest release date result
+    Service-->>Repository: Find most productive author
+    Repository-->>Database: Find most productive author
+    Database-->>Repository:
+    Repository-->>Service: Find most productive author result
+    Service-->>Repository: Find longest book title
+    Repository-->>Database: Find longest book title
+    Database-->>Repository:
+    Repository-->>Service: Find longest book title result
+    Service-->>Repository: Find shortest book title
+    Repository-->>Database: Find shortest book title
+    Database-->>Repository:
+    Repository-->>Service: Find shortest book title result
+    Service-->>Repository: Update analytics
+    Repository-->>Database: Update analytics
+    Database-->>Repository:
+    Repository-->>Service: Update analytics result
+    User-->>Handler: Get analytics
+    Handler-->>Service: Get analytics
+    Service-->>Repository: Get analytics
+    Repository-->>Database: Get analytics
+    Database-->>Repository:
+    Repository-->>Service: Return analytics result
+    Service-->>Handler: Return analytics result
+    Handler-->>User: Return analytics result
 ```
