@@ -12,6 +12,6 @@ type Handler struct {
 	service *service.Service
 }
 
-func NewBookHandler(service *service.Service) *Handler {
+func NewHandler(service *service.Service) *Handler {
 	return &Handler{service: service}
 }
