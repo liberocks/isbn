@@ -243,9 +243,6 @@ DELETE `/books/{isbn}`
 ```
 
 ### Analytics Endpoints
-To simulate the usage of goroutines, I added two endpoints to trigger the analytics process. These endpoints will run in the background and will not block the main thread. The analytics handler will trigger the analytics service, which will perform the analytics tasks concurrently using goroutines. Inside this service, multiple goroutines will be used to perform different analytics tasks, such as counting books, finding the oldest and newest release dates, and identifying the most productive author. The results of these tasks will be collected and stored in the database. After the analytics process is complete, the user can retrieve the analytics results using get analytics endpoint.
-
-
 
 ```mermaid
 sequenceDiagram
@@ -294,4 +291,38 @@ sequenceDiagram
     Repository-->>Service: Return analytics result
     Service-->>Handler: Return analytics result
     Handler-->>User: Return analytics result
+```
+
+To simulate the usage of goroutines, I added two endpoints to trigger the analytics process. These endpoints will run in the background and will not block the main thread. The analytics handler will trigger the analytics service, which will perform the analytics tasks concurrently using goroutines. Inside this service, multiple goroutines will be used to perform different analytics tasks, such as counting books, finding the oldest and newest release dates, and identifying the most productive author. The results of these tasks will be collected and stored in the database. After the analytics process is complete, the user can retrieve the analytics results using get analytics endpoint.
+
+
+
+
+
+### Trigger Analytics
+This endpoint triggers the analytics process. It will start the analytics pipeline in the background and return a message indicating that the process has started.
+
+POST `/analytics`
+#### Response
+```json
+{
+    "message": "Book analytics triggered successfully"
+}
+```
+
+### Get Analytics
+This endpoint retrieves the analytics results. It will return the results of the analytics tasks that were performed in the background.
+
+GET `/analytics`
+#### Response
+```json
+{
+    "total_books": 4,
+    "total_authors": 3,
+    "oldest_book_release_date": "2020-01-01",
+    "newest_book_release_date": "2023-12-31",
+    "most_productive_author": "Analytics Author",
+    "longest_book_title": "Very Long Analytics Test Book Title For Testing Longest Title",
+    "shortest_book_title": "Second Test Book"
+}
 ```
