@@ -33,13 +33,15 @@ sequenceDiagram
 
     User->>Handler: Send payload
     Handler->>Service: Validate payload
+    Service-->>Handler: If not valid, return error
+    Handler-->>User: If not valid, return error
     Service->>Repository: Create book
     Repository->>Database: Check if ISBN existed
     Database->>Repository: 
-    Repository-->>Service: If not existed, return error
-    Service-->>Handler: If not existed, return error
-    Handler-->>User: If not existed, return error
-    Repository->>Database: Create new record in the DB
+    Repository-->>Service: If existed, return error
+    Service-->>Handler: If existed, return error
+    Handler-->>User: If existed, return error
+    Repository->>Database: If not existed, create new record in the DB
     Database->>Repository: 
     Repository->>Service: Book created
     Service->>Handler: Construct response
