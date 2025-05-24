@@ -36,6 +36,9 @@ sequenceDiagram
     Service->>Repository: Create book
     Repository->>Database: Check if ISBN existed
     Database->>Repository: 
+    Repository-->>Service: If not existed, return error
+    Service-->>Handler: If not existed, return error
+    Handler-->>User: If not existed, return error
     Repository->>Database: Create new record in the DB
     Database->>Repository: 
     Repository->>Service: Book created
