@@ -28,23 +28,23 @@ make test
 ### Create a book
 
 ```mermaid
-zenuml
-    title Create a book
+sequenceDiagram
+    accTitle Create a book
     User
     Handler
     Service
     Repository
     Database
-    User->Handler: Send payload
-    Handler->Service: Validate payload
-    Service->Repository: Create book
-    Repository->Database: Check if ISBN existed
-    Database->Repository
-    Repository->Database: Create new record in the DB
-    Database->Repository
-    Repository->Service: Book created
-    Service->Handler: Construct response
-    Handler->User: Book created
+    User->>Handler: Send payload
+    Handler->>Service: Validate payload
+    Service->>Repository: Create book
+    Repository->>Database: Check if ISBN existed
+    Database->>Repository
+    Repository->>Database: Create new record in the DB
+    Database->>Repository
+    Repository->>Service: Book created
+    Service->>Handler: Construct response
+    Handler->>User: Book created
 ```
 
 This endpoint allows you to create a new book entry. This endpoint expects a JSON body with the book's details. The request payload will be validated, and if successful, the book will be added to the collection.
