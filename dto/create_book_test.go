@@ -1,0 +1,188 @@
+package dto
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestCreateBookRequest_Validate(t *testing.T) {
+	tests := []struct {
+		name    string
+		request CreateBookRequest
+		wantErr bool
+		errMsg  string
+	}{
+		{
+			name: "valid request",
+			request: CreateBookRequest{
+				ISBN:        "1234567890123",
+				Title:       "Valid Book Title",
+				Author:      "Valid Author",
+				ReleaseDate: "2023-01-01",
+			},
+			wantErr: false,
+		},
+		{
+			name: "empty ISBN",
+			request: CreateBookRequest{
+				ISBN:        "",
+				Title:       "Valid Book Title",
+				Author:      "Valid Author",
+				ReleaseDate: "2023-01-01",
+			},
+			wantErr: true,
+			errMsg:  "ISBN is required",
+		},
+		{
+			name: "ISBN too short",
+			request: CreateBookRequest{
+				ISBN:        "123456789012",
+				Title:       "Valid Book Title",
+				Author:      "Valid Author",
+				ReleaseDate: "2023-01-01",
+			},
+			wantErr: true,
+			errMsg:  "ISBN must be 13 characters long",
+		},
+		{
+			name: "ISBN too long",
+			request: CreateBookRequest{
+				ISBN:        "12345678901234",
+				Title:       "Valid Book Title",
+				Author:      "Valid Author",
+				ReleaseDate: "2023-01-01",
+			},
+			wantErr: true,
+			errMsg:  "ISBN must be 13 characters long",
+		},
+		{
+			name: "empty title",
+			request: CreateBookRequest{
+				ISBN:        "1234567890123",
+				Title:       "",
+				Author:      "Valid Author",
+				ReleaseDate: "2023-01-01",
+			},
+			wantErr: true,
+			errMsg:  "title is required",
+		},
+		{
+			name: "title too short",
+			request: CreateBookRequest{
+				ISBN:        "1234567890123",
+				Title:       "AB",
+				Author:      "Valid Author",
+				ReleaseDate: "2023-01-01",
+			},
+			wantErr: true,
+			errMsg:  "title must be between 3 and 100 characters",
+		},
+		{
+			name: "title too long",
+			request: CreateBookRequest{
+				ISBN:        "1234567890123",
+				Title:       strings.Repeat("A", 101),
+				Author:      "Valid Author",
+				ReleaseDate: "2023-01-01",
+			},
+			wantErr: true,
+			errMsg:  "title must be between 3 and 100 characters",
+		},
+		{
+			name: "empty author",
+			request: CreateBookRequest{
+				ISBN:        "1234567890123",
+				Title:       "Valid Book Title",
+				Author:      "",
+				ReleaseDate: "2023-01-01",
+			},
+			wantErr: true,
+			errMsg:  "author is required",
+		},
+		{
+			name: "author too short",
+			request: CreateBookRequest{
+				ISBN:        "1234567890123",
+				Title:       "Valid Book Title",
+				Author:      "AB",
+				ReleaseDate: "2023-01-01",
+			},
+			wantErr: true,
+			errMsg:  "author must be between 3 and 100 characters",
+		},
+		{
+			name: "author too long",
+			request: CreateBookRequest{
+				ISBN:        "1234567890123",
+				Title:       "Valid Book Title",
+				Author:      strings.Repeat("A", 101),
+				ReleaseDate: "2023-01-01",
+			},
+			wantErr: true,
+			errMsg:  "author must be between 3 and 100 characters",
+		},
+		{
+			name: "empty release date",
+			request: CreateBookRequest{
+				ISBN:        "1234567890123",
+				Title:       "Valid Book Title",
+				Author:      "Valid Author",
+				ReleaseDate: "",
+			},
+			wantErr: true,
+			errMsg:  "release date is required",
+		},
+		{
+			name: "release date wrong length",
+			request: CreateBookRequest{
+				ISBN:        "1234567890123",
+				Title:       "Valid Book Title",
+				Author:      "Valid Author",
+				ReleaseDate: "2023-1-1",
+			},
+			wantErr: true,
+			errMsg:  "release date must be in YYYY-MM-DD format",
+		},
+		{
+			name: "release date wrong format - missing first dash",
+			request: CreateBookRequest{
+				ISBN:        "1234567890123",
+				Title:       "Valid Book Title",
+				Author:      "Valid Author",
+				ReleaseDate: "20230101-1",
+			},
+			wantErr: true,
+			errMsg:  "release date must be in YYYY-MM-DD format",
+		},
+		{
+			name: "release date wrong format - missing second dash",
+			request: CreateBookRequest{
+				ISBN:        "1234567890123",
+				Title:       "Valid Book Title",
+				Author:      "Valid Author",
+				ReleaseDate: "2023-0101",
+			},
+			wantErr: true,
+			errMsg:  "release date must be in YYYY-MM-DD format",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := tt.request.Validate()
+			if tt.wantErr {
+				if err == nil {
+					t.Errorf("Expected error but got none")
+					return
+				}
+				if err.Error() != tt.errMsg {
+					t.Errorf("Expected error message '%s', got '%s'", tt.errMsg, err.Error())
+				}
+			} else {
+				if err != nil {
+					t.Errorf("Expected no error but got: %v", err)
+				}
+			}
+		})
+	}
+}
