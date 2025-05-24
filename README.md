@@ -166,8 +166,6 @@ sequenceDiagram
     Handler-->>User: If not existed, return error
     Repository->>Database: If existed, update record in the DB
     Database->>Repository: 
-    Repository->>Database: Update record in the DB
-    Database->>Repository: 
     Repository->>Service: Book updated
     Service->>Handler: Construct response
     Handler->>User: Book updated
@@ -210,8 +208,6 @@ sequenceDiagram
     Service-->>Handler: If not existed, return error
     Handler-->>User: If not existed, return error
     Repository->>Database: If existed, delete record in the DB
-    Database->>Repository: 
-    Repository->>Database: Delete record in the DB
     Database->>Repository: 
     Repository->>Service: Book deleted
     Service->>Handler: Construct response
