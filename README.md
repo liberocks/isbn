@@ -29,19 +29,15 @@ make test
 
 ```mermaid
 sequenceDiagram
-    accTitle Create a book
-    User
-    Handler
-    Service
-    Repository
-    Database
+    accTitle: Create a book
+
     User->>Handler: Send payload
     Handler->>Service: Validate payload
     Service->>Repository: Create book
     Repository->>Database: Check if ISBN existed
-    Database->>Repository
+    Database->>Repository: 
     Repository->>Database: Create new record in the DB
-    Database->>Repository
+    Database->>Repository: 
     Repository->>Service: Book created
     Service->>Handler: Construct response
     Handler->>User: Book created
