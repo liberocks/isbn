@@ -1,8 +1,9 @@
 # ISBN Book API
 
-This is a simple API to manage books using their ISBN numbers. It allows you to add, retrieve, and delete books from a collection. It will log all requests and responses to a file (app.log) and stdout.
+This is a simple API to manage books using their ISBN numbers. It allows you to add, retrieve, and delete books from a collection.
 
 ## Table of Contents
+- [Assumptions](#assumptions)
 - [How to run locally](#how-to-run-locally)
 - [How to run with Docker](#how-to-run-with-docker)
 - [How to test](#how-to-test)
@@ -13,6 +14,14 @@ This is a simple API to manage books using their ISBN numbers. It allows you to 
   - [Update a book by ISBN](#update-a-book-by-isbn)
   - [Delete a book by ISBN](#delete-a-book-by-isbn)
   - [Analytics Endpoints](#analytics-endpoints)
+
+## Assumptions
+- The API is designed to handle books with unique ISBN numbers (the name is interchangeable with ID in the code).
+- The API will log all requests and responses to a file (app.log) and stdout.
+- The API will use a simple in-memory database for storing book records. In the real production environment, we should use a persistent database like PostgreSQL.
+- The service and repository layers won't use safe database transactions. In a real-world application, we would implement transactions to ensure data integrity.
+- Since this is a simple API, it will not implement advanced features like authentication or authorization.
+- The API will have a simple analytics pipeline to gather statistics about the books in the collection. It will calculate the analytics in the background once triggered. In the real world, it might be triggered by a cron job or a message queue.
 
 ## How to run locally
 Run the following command to start the API locally:
@@ -294,10 +303,6 @@ sequenceDiagram
 ```
 
 To simulate the usage of goroutines, I added two endpoints to trigger the analytics process. These endpoints will run in the background and will not block the main thread. The analytics handler will trigger the analytics service, which will perform the analytics tasks concurrently using goroutines. Inside this service, multiple goroutines will be used to perform different analytics tasks, such as counting books, finding the oldest and newest release dates, and identifying the most productive author. The results of these tasks will be collected and stored in the database. After the analytics process is complete, the user can retrieve the analytics results using get analytics endpoint.
-
-
-
-
 
 ### Trigger Analytics
 This endpoint triggers the analytics process. It will start the analytics pipeline in the background and return a message indicating that the process has started.
