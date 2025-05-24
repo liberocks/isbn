@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"isbn/dto"
+	"isbn/logger"
 )
 
 // @Summary Delete a book by ID
@@ -16,12 +17,14 @@ import (
 func (h *Handler) BookDeleteByID(w http.ResponseWriter, r *http.Request) {
 	prefix := "/books/"
 	if !strings.HasPrefix(r.URL.Path, prefix) {
+		logger.Logger.Error("Invalid URL path", "path", r.URL.Path)
 		http.Error(w, "Not Found", http.StatusNotFound)
 		return
 	}
 
 	id := strings.TrimPrefix(r.URL.Path, prefix)
 	if id == "" {
+		logger.Logger.Error("Book ID is required", "path", r.URL.Path)
 		http.Error(w, "Book ID is required", http.StatusBadRequest)
 		return
 	}
@@ -31,6 +34,7 @@ func (h *Handler) BookDeleteByID(w http.ResponseWriter, r *http.Request) {
 
 	res, err = h.service.BookDeleteByID(r.Context(), id)
 	if err != nil {
+		logger.Logger.Error("Failed to delete book", "error", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

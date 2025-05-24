@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"isbn/dto"
+	"isbn/logger"
 )
 
 // @Summary Get list of books
@@ -17,6 +18,7 @@ func (h *Handler) BookGetList(w http.ResponseWriter, r *http.Request) {
 	prefix := "/books"
 
 	if !strings.HasPrefix(r.URL.Path, prefix) {
+		logger.Logger.Error("Invalid URL path", "path", r.URL.Path)
 		http.Error(w, "Not Found", http.StatusNotFound)
 		return
 	}
@@ -42,6 +44,7 @@ func (h *Handler) BookGetList(w http.ResponseWriter, r *http.Request) {
 
 	// Validate the request
 	if err := req.Validate(); err != nil {
+		logger.Logger.Error("Validation error", "error", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -51,6 +54,7 @@ func (h *Handler) BookGetList(w http.ResponseWriter, r *http.Request) {
 
 	res, err = h.service.BookGetList(r.Context(), req)
 	if err != nil {
+		logger.Logger.Error("Failed to get book list", "error", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

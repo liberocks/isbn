@@ -3,20 +3,16 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log/slog"
 	"net/http"
-	"os"
 
 	"isbn/config"
 	"isbn/handler"
+	"isbn/logger"
 	"isbn/repository"
 	"isbn/service"
 )
 
 func main() {
-	// Setup logging
-	slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, nil)))
-
 	// Initialization
 	repo := repository.NewRepository()
 	service := service.NewService(repo)
@@ -53,6 +49,6 @@ func main() {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	})
 
-	slog.Info(fmt.Sprintf("Starting server on :%d", config.AppConfig.Port))
+	logger.Logger.Info(fmt.Sprintf("Starting server on :%d", config.AppConfig.Port))
 	http.ListenAndServe(fmt.Sprintf(":%d", config.AppConfig.Port), nil)
 }

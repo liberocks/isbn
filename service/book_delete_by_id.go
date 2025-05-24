@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-	"log/slog"
 
 	"isbn/dto"
+	"isbn/logger"
 )
 
 func (s *Service) BookDeleteByID(ctx context.Context, isbn string) (dto.BookDeleteByIDResponse, error) {
@@ -14,7 +14,7 @@ func (s *Service) BookDeleteByID(ctx context.Context, isbn string) (dto.BookDele
 		return dto.BookDeleteByIDResponse{}, err
 	}
 
-	slog.Info("Book deleted successfully", "ISBN", isbn)
+	logger.Logger.Info("Book deleted successfully", "ISBN", isbn)
 
 	// Map the response DTO
 	response := dto.BookDeleteByIDResponse{

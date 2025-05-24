@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-	"log/slog"
 
 	"isbn/dto"
+	"isbn/logger"
 )
 
 func (s *Service) BookUpdateByID(ctx context.Context, isbn string, book dto.BookUpdateByIDRequest) (dto.BookUpdateByIDResponse, error) {
@@ -14,7 +14,7 @@ func (s *Service) BookUpdateByID(ctx context.Context, isbn string, book dto.Book
 		return dto.BookUpdateByIDResponse{}, err
 	}
 
-	slog.Info("Book updated successfully", "ISBN", updatedBook.ISBN, "Title", updatedBook.Title)
+	logger.Logger.Info("Book updated successfully", "ISBN", updatedBook.ISBN, "Title", updatedBook.Title)
 
 	// Map the updated book to the response DTO
 	response := dto.BookUpdateByIDResponse{

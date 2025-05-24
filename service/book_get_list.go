@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-	"log/slog"
 
 	"isbn/dto"
+	"isbn/logger"
 )
 
 func (s *Service) BookGetList(ctx context.Context, book dto.BookGetListQuery) (dto.BookGetListResponse, error) {
@@ -14,7 +14,7 @@ func (s *Service) BookGetList(ctx context.Context, book dto.BookGetListQuery) (d
 		return dto.BookGetListResponse{}, err
 	}
 
-	slog.Info("Book list retrieved successfully", "Count", count, "Page", book.Page, "Limit", book.Limit)
+	logger.Logger.Info("Book list retrieved successfully", "Count", count, "Page", book.Page, "Limit", book.Limit)
 
 	// Map the books to the response DTO
 	response := dto.BookGetListResponse{
