@@ -17,12 +17,22 @@ BINARY_NAME=isbn
 COVERAGE_FILE=coverage.out
 
 # Default target
-all: format test coverage build
+all: format test test_curl coverage build
 
 # Run all tests
 test:
 	@echo "Running tests..."
 	$(GOTEST) -v ./...
+
+test_on:
+	@if [ -z "$(file)" ]; then \
+		echo "Usage: make test_on file=path/to/your/test/file.go"; \
+		exit 1; \
+	fi
+	go test -v -cover -covermode=atomic $(file)
+
+test_curl:
+	@echo "Running tests with curl..."
 	@if [ -f ./test.sh ]; then \
 		echo "Running test script..."; \
 		./test.sh; \

@@ -1,13 +1,11 @@
-package model
+package dto
 
-type Book struct {
-	ISBN        string `json:"isbn"`
-	Title       string `json:"title"`
-	Author      string `json:"author"`
-	ReleaseDate string `json:"release_date"`
+// DTO
+type BookAnalyticsTriggerResponse struct {
+	Message string `json:"message"`
 }
 
-type BookAnalytics struct {
+type BookAnalyticsGetResponse struct {
 	TotalBooks            int    `json:"total_books"`
 	TotalAuthors          int    `json:"total_authors"`
 	OldestBookReleaseDate string `json:"oldest_book_release_date"`

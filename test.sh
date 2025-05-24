@@ -237,4 +237,92 @@ else
 fi
 echo
 
+# Create books for analytics testing
+echo -e "${YELLOW}Creating books for analytics testing...${NC}"
+curl -s -X POST "$BASE_URL/books" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "isbn": "9781111111111",
+        "title": "Analytics Test Book One",
+        "author": "Analytics Author",
+        "release_date": "2020-01-01"
+    }' > /dev/null
+
+curl -s -X POST "$BASE_URL/books" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "isbn": "9782222222222",
+        "title": "Very Long Analytics Test Book Title For Testing Longest Title",
+        "author": "Analytics Author",
+        "release_date": "2023-12-31"
+    }' > /dev/null
+
+curl -s -X POST "$BASE_URL/books" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "isbn": "9783333333333",
+        "title": "X",
+        "author": "Different Author",
+        "release_date": "2022-06-15"
+    }' > /dev/null
+echo "Analytics test books created"
+echo
+
+# Test 13: Trigger analytics calculation
+echo -e "${YELLOW}Test 13: Trigger analytics calculation${NC}"
+RESPONSE=$(curl -s -w "%{http_code}" -X POST "$BASE_URL/analytics/trigger")
+HTTP_CODE="${RESPONSE: -3}"
+BODY="${RESPONSE%???}"
+echo "Response: $BODY"
+echo "HTTP Code: $HTTP_CODE"
+if [ "$HTTP_CODE" -eq 200 ]; then
+    print_result 0 "Analytics triggered successfully"
+else
+    print_result 1 "Failed to trigger analytics"
+fi
+echo
+
+# Test 14: Get analytics data
+echo -e "${YELLOW}Test 14: Get analytics data${NC}"
+RESPONSE=$(curl -s -w "%{http_code}" -X GET "$BASE_URL/analytics")
+HTTP_CODE="${RESPONSE: -3}"
+BODY="${RESPONSE%???}"
+echo "Response: $BODY"
+echo "HTTP Code: $HTTP_CODE"
+if [ "$HTTP_CODE" -eq 200 ]; then
+    print_result 0 "Analytics data retrieved successfully"
+else
+    print_result 1 "Failed to retrieve analytics data"
+fi
+echo
+
+# Test 15: Verify analytics reflect current book count
+echo -e "${YELLOW}Test 15: Verify analytics reflect current book count${NC}"
+# Trigger analytics again to ensure it's up to date
+curl -s -X POST "$BASE_URL/analytics" > /dev/null
+RESPONSE=$(curl -s -w "%{http_code}" -X GET "$BASE_URL/analytics")
+HTTP_CODE="${RESPONSE: -3}"
+BODY="${RESPONSE%???}"
+echo "Response: $BODY"
+echo "HTTP Code: $HTTP_CODE"
+if [ "$HTTP_CODE" -eq 200 ]; then
+    # Check if the response contains expected fields and non-zero values
+    if echo "$BODY" | grep -q '"total_books":[1-9]' && echo "$BODY" | grep -q '"total_authors":[1-9]'; then
+        print_result 0 "Analytics contains expected fields with valid data"
+    else
+        print_result 1 "Analytics missing expected fields or contains zero values"
+    fi
+else
+    print_result 1 "Failed to retrieve updated analytics"
+fi
+echo
+
+# Clean up analytics test books
+echo -e "${YELLOW}Cleaning up analytics test books...${NC}"
+curl -s -X DELETE "$BASE_URL/books/9781111111111" > /dev/null
+curl -s -X DELETE "$BASE_URL/books/9782222222222" > /dev/null
+curl -s -X DELETE "$BASE_URL/books/9783333333333" > /dev/null
+echo "Analytics test books cleaned up"
+echo
+
 echo -e "${YELLOW}=== Test Script Completed ===${NC}"

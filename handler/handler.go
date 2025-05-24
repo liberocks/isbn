@@ -6,6 +6,7 @@ import (
 
 type HandlerInterface interface {
 	BookHandlerInterface
+	BookAnalyticsHandlerInterface
 }
 
 type Handler struct {

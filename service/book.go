@@ -12,4 +12,6 @@ type BookServiceInterface interface {
 	BookGetByID(ctx context.Context, isbn string) (dto.BookGetByIDResponse, error)
 	BookUpdateByID(ctx context.Context, isbn string, book dto.BookUpdateByIDRequest) (dto.BookUpdateByIDResponse, error)
 	BookDeleteByID(ctx context.Context, isbn string) (dto.BookDeleteByIDResponse, error)
+	TriggerBookAnalysis(ctx context.Context, isbn string) error
+	GetBookAnalytics(ctx context.Context) (dto.BookAnalyticsGetResponse, error)
 }
