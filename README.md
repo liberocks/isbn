@@ -201,8 +201,15 @@ sequenceDiagram
 
     User->>Handler: Send request with ISBN
     Handler->>Service: Validate ISBN
+    Service-->>Handler: If not valid, return error
+    Handler-->>User: If not valid, return error
     Service->>Repository: Delete book by ISBN
     Repository->>Database: Check if ISBN existed
+    Database-->>Repository: If not existed, return error
+    Repository-->>Service: If not existed, return error
+    Service-->>Handler: If not existed, return error
+    Handler-->>User: If not existed, return error
+    Repository->>Database: If existed, delete record in the DB
     Database->>Repository: 
     Repository->>Database: Delete record in the DB
     Database->>Repository: 
