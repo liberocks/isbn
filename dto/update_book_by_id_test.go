@@ -7,17 +7,16 @@ import (
 	"isbn/dto"
 )
 
-func TestCreateBookRequest_Validate(t *testing.T) {
+func TestUpdateBookByIDRequest_Validate(t *testing.T) {
 	tests := []struct {
 		name    string
-		request dto.CreateBookRequest
+		request dto.UpdateBookByIDRequest
 		wantErr bool
 		errMsg  string
 	}{
 		{
 			name: "valid request",
-			request: dto.CreateBookRequest{
-				ISBN:        "1234567890123",
+			request: dto.UpdateBookByIDRequest{
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
 				ReleaseDate: "2023-01-01",
@@ -25,42 +24,8 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "empty ISBN",
-			request: dto.CreateBookRequest{
-				ISBN:        "",
-				Title:       "Valid Book Title",
-				Author:      "Valid Author",
-				ReleaseDate: "2023-01-01",
-			},
-			wantErr: true,
-			errMsg:  "ISBN is required",
-		},
-		{
-			name: "ISBN too short",
-			request: dto.CreateBookRequest{
-				ISBN:        "123456789012",
-				Title:       "Valid Book Title",
-				Author:      "Valid Author",
-				ReleaseDate: "2023-01-01",
-			},
-			wantErr: true,
-			errMsg:  "ISBN must be 13 characters long",
-		},
-		{
-			name: "ISBN too long",
-			request: dto.CreateBookRequest{
-				ISBN:        "12345678901234",
-				Title:       "Valid Book Title",
-				Author:      "Valid Author",
-				ReleaseDate: "2023-01-01",
-			},
-			wantErr: true,
-			errMsg:  "ISBN must be 13 characters long",
-		},
-		{
 			name: "empty title",
-			request: dto.CreateBookRequest{
-				ISBN:        "1234567890123",
+			request: dto.UpdateBookByIDRequest{
 				Title:       "",
 				Author:      "Valid Author",
 				ReleaseDate: "2023-01-01",
@@ -70,8 +35,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "title too short",
-			request: dto.CreateBookRequest{
-				ISBN:        "1234567890123",
+			request: dto.UpdateBookByIDRequest{
 				Title:       "AB",
 				Author:      "Valid Author",
 				ReleaseDate: "2023-01-01",
@@ -81,8 +45,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "title too long",
-			request: dto.CreateBookRequest{
-				ISBN:        "1234567890123",
+			request: dto.UpdateBookByIDRequest{
 				Title:       strings.Repeat("A", 101),
 				Author:      "Valid Author",
 				ReleaseDate: "2023-01-01",
@@ -92,8 +55,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "empty author",
-			request: dto.CreateBookRequest{
-				ISBN:        "1234567890123",
+			request: dto.UpdateBookByIDRequest{
 				Title:       "Valid Book Title",
 				Author:      "",
 				ReleaseDate: "2023-01-01",
@@ -103,8 +65,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "author too short",
-			request: dto.CreateBookRequest{
-				ISBN:        "1234567890123",
+			request: dto.UpdateBookByIDRequest{
 				Title:       "Valid Book Title",
 				Author:      "AB",
 				ReleaseDate: "2023-01-01",
@@ -114,8 +75,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "author too long",
-			request: dto.CreateBookRequest{
-				ISBN:        "1234567890123",
+			request: dto.UpdateBookByIDRequest{
 				Title:       "Valid Book Title",
 				Author:      strings.Repeat("A", 101),
 				ReleaseDate: "2023-01-01",
@@ -125,8 +85,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "empty release date",
-			request: dto.CreateBookRequest{
-				ISBN:        "1234567890123",
+			request: dto.UpdateBookByIDRequest{
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
 				ReleaseDate: "",
@@ -136,8 +95,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "release date wrong length",
-			request: dto.CreateBookRequest{
-				ISBN:        "1234567890123",
+			request: dto.UpdateBookByIDRequest{
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
 				ReleaseDate: "2023-1-1",
@@ -147,8 +105,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "release date wrong format - missing first dash",
-			request: dto.CreateBookRequest{
-				ISBN:        "1234567890123",
+			request: dto.UpdateBookByIDRequest{
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
 				ReleaseDate: "20230101-1",
@@ -158,8 +115,7 @@ func TestCreateBookRequest_Validate(t *testing.T) {
 		},
 		{
 			name: "release date wrong format - missing second dash",
-			request: dto.CreateBookRequest{
-				ISBN:        "1234567890123",
+			request: dto.UpdateBookByIDRequest{
 				Title:       "Valid Book Title",
 				Author:      "Valid Author",
 				ReleaseDate: "2023-0101",
